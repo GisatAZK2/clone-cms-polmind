@@ -1,0 +1,169 @@
+/* ANIMATION PAGES MAIN */
+
+
+@keyframes loaderPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: .8
+  }
+}
+
+@keyframes loaderProgress {
+  0% {
+    width: 0%
+  }
+
+  60% {
+    width: 75%
+  }
+
+  100% {
+    width: 95%
+  }
+}
+
+
+@keyframes slideDownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDownOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+}
+
+.anim-slide-down {
+  animation-duration: 0.8s;
+}
+
+.animated {
+  animation-fill-mode: both;
+}
+
+@keyframes slideUpIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.anim-slide-up {
+  animation-duration: 0.8s;
+}
+
+.anim-fade-in {
+  animation-duration: 0.8s;
+}
+
+.animated.anim-slide-down {
+  animation-name: slideDownIn;
+}
+
+.animated.anim-slide-up {
+  animation-name: slideUpIn;
+}
+
+.animated.anim-fade-in {
+  animation-name: fadeIn;
+}
+
+@keyframes slideLeftIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.anim-slide-left {
+  animation-duration: 0.7s;
+}
+
+.animated.anim-slide-left {
+  animation-name: slideLeftIn;
+}
+
+@keyframes slideRightIn {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.anim-slide-right {
+  animation-duration: 0.7s;
+}
+
+.animated.anim-slide-right {
+  animation-name: slideRightIn;
+}
+
+.keunggulan-card {
+  will-change: transform, opacity;
+}
+
+.keunggulan-card {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.keunggulan-card.animated {
+  opacity: 1;
+}
+
+[data-animate]:not(img):not(picture):not(svg):not(video),
+[class*="anim-"]:not(img):not(picture):not(svg):not(video) {
+  opacity: 0;
+}
+
+[data-animate]:not(img):not(picture):not(svg):not(video).animated,
+[class*="anim-"]:not(img):not(picture):not(svg):not(video) .animated,
+[class*="anim-"]:not(img):not(picture):not(svg):not(video).animated {
+  opacity: 1;
+}

@@ -1,0 +1,205 @@
+/* ============================================================
+   ERROR PAGES 
+   ============================================================ */
+
+.error-page {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: #f0f5ff;
+}
+
+.error-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #dbeafe;
+    padding: 3.5rem 3rem;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 24px rgba(16, 44, 83, 0.07);
+}
+
+/* ── ICON CIRCLE ── */
+.error-icon-wrap {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: #e8f0fb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.75rem;
+}
+
+.error-icon-wrap svg {
+    width: 40px;
+    height: 40px;
+    color: #102C53;
+}
+
+/* ── ERROR CODE ── */
+.error-code {
+    font-size: 72px;
+    font-weight: 700;
+    color: #102C53;
+    line-height: 1;
+    letter-spacing: -3px;
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.error-code span {
+    color: #3065AB;
+}
+
+/* ── TEXTS ── */
+.error-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+    font-family: 'Poppins', sans-serif;
+}
+
+.error-desc {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ── ACTIONS ── */
+.error-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+}
+
+/* Override btn-primary dari main-style agar tidak bentrok */
+.error-card .btn-error-primary {
+    background: #102C53;
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 11px 26px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.error-card .btn-error-primary:hover {
+    background: #0f3370;
+    color: #ffffff;
+}
+
+.error-card .btn-error-secondary {
+    background: transparent;
+    color: #102C53;
+    text-decoration: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    border: 1.5px solid #102C53;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.error-card .btn-error-secondary:hover {
+    background: #e8f0fb;
+}
+
+/* ── DIVIDER ── */
+.error-divider {
+    border: none;
+    border-top: 1px solid #dbeafe;
+    margin: 2rem 0 1.5rem;
+}
+
+/* ── FOOTER LINKS ── */
+.error-footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.error-footer-links a {
+    font-size: 13px;
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.2s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.error-footer-links a:hover {
+    color: #102C53;
+}
+
+/* ── MAINTENANCE BADGE (503) ── */
+.maintenance-badge {
+    display: inline-flex;
+    align-items: center;
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 1.25rem;
+    gap: 4px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ── PING DOT (503) ── */
+.ping-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #f59e0b;
+    position: relative;
+    margin-right: 4px;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.ping-dot::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid #fde68a;
+    animation: ping 1.5s ease-in-out infinite;
+}
+
+@keyframes ping {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%       { transform: scale(1.6); opacity: 0; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+    .error-page  { padding: 40px 16px; }
+    .error-card  { padding: 2rem 1.25rem; border-radius: 16px; }
+    .error-code  { font-size: 56px; }
+    .error-title { font-size: 17px; }
+    .error-desc  { font-size: 13px; }
+}
