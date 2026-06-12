@@ -10993,3 +10993,86 @@ textarea {
   position: fixed !important;
   z-index: 1201 !important;
 }
+/* ============================================================
+   FLOATING POPUP VIEWPORT SAFE FIX
+   Cegah popup tenggelam / kepotong di bawah layar
+   ============================================================ */
+
+.pp-overlay.pp-floating {
+  inset: 0 !important;
+  overflow: hidden !important;
+  pointer-events: auto !important;
+  background: transparent !important;
+}
+
+.pp-overlay .pp-modal.pp-modal--floating {
+  position: fixed !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+.pp-overlay .pp-modal.pp-modal--floating .pp-img-wrap {
+  flex-shrink: 0 !important;
+  overflow: hidden !important;
+  background: transparent !important;
+}
+
+.pp-overlay .pp-modal.pp-modal--floating .pp-img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+.pp-overlay .pp-modal.pp-modal--floating .pp-content-wrap {
+  flex-shrink: 0 !important;
+  overflow: hidden !important;
+  background: #fff !important;
+}
+/* ============================================================
+   FLOATING POPUP SAFE START
+   Popup naik dari bottom agar gambar tidak tenggelam
+   ============================================================ */
+
+.pp-overlay.pp-floating {
+  inset: 0 !important;
+  overflow: hidden !important;
+  pointer-events: auto !important;
+  background: transparent !important;
+}
+
+.pp-overlay .pp-modal.pp-modal--floating {
+  position: fixed !important;
+  bottom: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+.pp-overlay .pp-modal.pp-modal--floating .pp-container {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.pp-overlay .pp-modal.pp-modal--floating .pp-img-wrap {
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+}
+
+.pp-overlay .pp-modal.pp-modal--floating .pp-img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}

@@ -41,7 +41,87 @@
 
     function resetModalStyle(modal) {
         modal.classList.remove('pp-modal--floating');
-        ['position', 'left', 'top', 'width', 'height', 'margin', 'transition', 'borderRadius', 'boxShadow', 'overflow', 'pointerEvents'].forEach(function (p) { modal.style[p] = ''; });
+
+        [
+            'position',
+            'left',
+            'top',
+            'right',
+            'bottom',
+            'width',
+            'maxWidth',
+            'height',
+            'maxHeight',
+            'margin',
+            'transition',
+            'borderRadius',
+            'boxShadow',
+            'overflow',
+            'pointerEvents'
+        ].forEach(function (p) {
+            modal.style[p] = '';
+        });
+    }
+
+    function resetFloatingInlineStyle() {
+        var img = document.getElementById('ppImage');
+        var imgWrap = document.getElementById('ppImageWrap');
+        var contentWrap = document.getElementById('ppContentWrap');
+
+        if (imgWrap) {
+            [
+                'width',
+                'height',
+                'maxHeight',
+                'overflow'
+            ].forEach(function (p) {
+                imgWrap.style[p] = '';
+            });
+        }
+
+        if (img) {
+            [
+                'width',
+                'height',
+                'maxWidth',
+                'maxHeight',
+                'objectFit',
+                'objectPosition'
+            ].forEach(function (p) {
+                img.style[p] = '';
+            });
+        }
+
+        if (contentWrap) {
+            [
+                'width',
+                'height',
+                'maxHeight',
+                'overflow'
+            ].forEach(function (p) {
+                contentWrap.style[p] = '';
+            });
+        }
+    }
+    function showPopupCenter(overlay) {
+        var modal = document.getElementById('ppModal');
+        if (!overlay || !modal) return;
+
+        overlay.classList.remove('pp-floating', 'pp-hide');
+        overlay.classList.add('pp-show');
+
+        overlay.style.display = 'flex';
+        overlay.style.background = '';
+        overlay.style.pointerEvents = '';
+
+        resetModalStyle(modal);
+        resetFloatingInlineStyle();
+
+        /*
+         * Apply ulang logic yang sama seperti popup pertama muncul,
+         * tapi TANPA panggil openPopup() lagi.
+         */
+        detectImageAspectRatio();
     }
 
     /* ── Aspect ratio detect ── */
@@ -312,10 +392,6 @@
         var imageW;
         var imageH;
 
-        /*
-         * Ukuran dasar floating.
-         * Bukan fixed modal, tapi dihitung dari rasio gambar.
-         */
         if (isUltraWide) {
             imageW = viewportW <= 480 ? Math.min(230, viewportW - 32) : 320;
             imageH = Math.round(imageW * 9 / 16);
@@ -330,10 +406,32 @@
             imageH = imageW;
         }
 
+        var contentH = 0;
+
+        if (contentWrap) {
+            /*
+             * Floating jangan terlalu tinggi.
+             * Content cukup preview pendek saja.
+             */
+            contentH = viewportW <= 480 ? 86 : 96;
+        }
+
         /*
-         * Kalau portrait terlalu tinggi, kecilkan width-nya.
+         * Tinggi aman popup.
+         * Ini yang mencegah popup tenggelam ke bawah viewport.
          */
-        var maxImageH = viewportW <= 480 ? 200 : 240;
+        var maxModalH = viewportH - (gap * 2);
+
+        /*
+         * Kalau image + content melebihi layar,
+         * yang dikurangi adalah tinggi image, bukan modal dibiarkan keluar layar.
+         */
+        var maxImageH = maxModalH - contentH;
+
+        if (maxImageH < 90) {
+            maxImageH = 90;
+            contentH = Math.max(56, maxModalH - maxImageH);
+        }
 
         if (imageH > maxImageH) {
             imageH = maxImageH;
@@ -345,20 +443,47 @@
             }
         }
 
-        var contentH = 0;
+        /*
+         * Jangan sampai width keluar layar setelah height dikoreksi.
+         */
+        var maxImageW = viewportW - (gap * 2);
 
-        if (contentWrap) {
-            contentH = Math.min(contentWrap.scrollHeight || 0, 54);
+        if (imageW > maxImageW) {
+            imageW = maxImageW;
+
+            if (isUltraWide) {
+                imageH = Math.round(imageW * 9 / 16);
+            } else {
+                imageH = Math.round(imageW / ratio);
+            }
         }
 
         var modalW = imageW;
         var modalH = imageH + contentH;
 
-        modal.style.position = 'fixed';
-        modal.style.left = gap + 'px';
-        modal.style.top = Math.max(12, viewportH - modalH - gap) + 'px';
-        modal.style.width = modalW + 'px';
-        modal.style.height = modalH + 'px';
+        /*
+         * Reserve bawah:
+         * desktop: sedikit naik
+         * mobile: naik lebih banyak supaya tidak tenggelam dan tidak tabrakan WA
+         */
+        var bottomReserve = viewportW <= 480 ? 86 : 76;
+
+        /*
+         * Titik start floating dibuat lebih tinggi.
+         * Jadi bukan mepet bottom viewport lagi.
+         */
+        var modalTop = viewportH - modalH - bottomReserve;
+
+        if (modalTop < gap) {
+            modalTop = gap;
+        }
+
+        modal.style.setProperty('position', 'fixed', 'important');
+        modal.style.setProperty('left', gap + 'px', 'important');
+        modal.style.setProperty('top', modalTop + 'px', 'important');
+        modal.style.setProperty('bottom', 'auto', 'important');
+        modal.style.setProperty('width', modalW + 'px', 'important');
+        modal.style.setProperty('height', modalH + 'px', 'important');
         modal.style.margin = '0';
         modal.style.borderRadius = '12px';
         modal.style.boxShadow = '0 12px 38px rgba(6,24,66,0.18)';
@@ -372,36 +497,32 @@
             'box-shadow 420ms ease, border-radius 420ms ease';
 
         if (imgWrap) {
-            imgWrap.style.width = imageW + 'px';
-            imgWrap.style.height = imageH + 'px';
+            imgWrap.style.setProperty('width', imageW + 'px', 'important');
+            imgWrap.style.setProperty('height', imageH + 'px', 'important');
+            imgWrap.style.setProperty('max-height', imageH + 'px', 'important');
+            imgWrap.style.setProperty('overflow', 'hidden', 'important');
         }
 
         if (img) {
-            img.style.width = imageW + 'px';
-            img.style.height = imageH + 'px';
-
-            /*
-             * Normal image:
-             * width/height sudah sesuai rasio gambar,
-             * jadi fill tidak akan gepeng dan tidak akan nyisain ruang.
-             */
-            img.style.objectFit = isUltraWide ? 'cover' : 'fill';
-            img.style.objectPosition = 'center center';
+            img.style.setProperty('width', '100%', 'important');
+            img.style.setProperty('height', '100%', 'important');
+            img.style.setProperty('max-width', 'none', 'important');
+            img.style.setProperty('max-height', 'none', 'important');
+            img.style.setProperty('object-fit', 'cover', 'important');
+            img.style.setProperty('object-position', 'center center', 'important');
         }
 
         if (contentWrap) {
-            contentWrap.style.width = imageW + 'px';
-            contentWrap.style.maxHeight = contentH + 'px';
-            contentWrap.style.overflow = 'hidden';
+            contentWrap.style.setProperty('width', imageW + 'px', 'important');
+            contentWrap.style.setProperty('height', contentH + 'px', 'important');
+            contentWrap.style.setProperty('max-height', contentH + 'px', 'important');
+            contentWrap.style.setProperty('overflow', 'hidden', 'important');
         }
     }
 
 
     function restoreToCenter(overlay) {
         var modal = document.getElementById('ppModal');
-        var img = document.getElementById('ppImage');
-        var imgWrap = document.getElementById('ppImageWrap');
-        var contentWrap = document.getElementById('ppContentWrap');
 
         if (!modal || !overlay.classList.contains('pp-floating')) return;
 
@@ -413,37 +534,15 @@
             overlay._pp_restore_click = null;
         }
 
-        modal.classList.remove('pp-modal--floating');
+        if (overlay._pp_resize_handler) {
+            try {
+                window.removeEventListener('resize', overlay._pp_resize_handler);
+            } catch (e) { }
 
-        if (imgWrap) {
-            imgWrap.style.width = '';
-            imgWrap.style.height = '';
+            overlay._pp_resize_handler = null;
         }
 
-        if (img) {
-            img.style.width = '';
-            img.style.height = '';
-            img.style.objectFit = '';
-            img.style.objectPosition = '';
-        }
-
-        if (contentWrap) {
-            contentWrap.style.width = '';
-            contentWrap.style.maxHeight = '';
-            contentWrap.style.overflow = '';
-        }
-
-        resetModalStyle(modal);
-
-        overlay.classList.remove('pp-floating');
-        overlay.style.background = '';
-        overlay.style.pointerEvents = 'none';
-
-        /*
-         * Re-apply aspect ratio popup tengah.
-         * Function ini sudah ada dan akan set class portrait/landscape lagi.
-         */
-        detectImageAspectRatio();
+        showPopupCenter(overlay);
     }
 
     /* ── Main open ── */
