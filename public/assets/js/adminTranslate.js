@@ -242,7 +242,6 @@ const AdminTranslate = {
       'popup.altText': 'Alt Text',
       'popup.content': 'Konten',
       'popup.activate': 'Aktifkan Popup',
-      'popup.previewImage': 'Preview Gambar Baru',
       'popup.imageCol': 'Gambar',
       'popup.contentCol': 'Konten',
       'popup.altCol': 'Alt Text',
@@ -753,6 +752,8 @@ const AdminTranslate = {
       'common.validationError': 'Terjadi Kesalahan:',
       'common.currentImage' : 'Gambar Saat Ini',
       'common.admin-error-home-button' : 'Ke Beranda',
+      'common.currentImage': 'Gambar Saat Ini',
+      'common.previewImage': 'Preview Gambar Baru',
 
 
       // Login
@@ -1534,6 +1535,9 @@ const AdminTranslate = {
       'common.validationError': 'An error occurred:',
       'common.currentImage' : 'Current Image',
       'common.admin-error-home-button' : 'Go to Homepage',
+      'common.previewImage': 'Image Preview',
+      'common.currentImage': 'Current Image',
+      'common.previewImage': 'Preview New Image',
 
       // Login
       'login.title': 'Login — CMS Polmind',

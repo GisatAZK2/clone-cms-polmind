@@ -8,8 +8,8 @@ export const SimpleImagePreview = {
 
     bindDefaultPreview() {
         const input = document.getElementById('urlImagesInput');
-        const wrap  = document.getElementById('imgPreviewWrap');
-        const img   = document.getElementById('imgPreview');
+        const wrap = document.getElementById('imgPreviewWrap');
+        const img = document.getElementById('imgPreview');
 
         if (!input || !wrap || !img) return;
 
@@ -18,8 +18,8 @@ export const SimpleImagePreview = {
 
     bindPopupPreview() {
         const input = document.getElementById('url_image');
-        const wrap  = document.getElementById('imagePreview');
-        const img   = document.getElementById('previewImg');
+        const wrap = document.getElementById('imagePreview');
+        const img = document.getElementById('previewImg');
         const label = document.getElementById('previewLabel');
 
         if (!input || !wrap || !img) return;
@@ -48,7 +48,15 @@ export const SimpleImagePreview = {
             wrap.style.display = 'block';
 
             if (label) {
-                label.textContent = label.dataset.newText || 'Preview Gambar Baru';
+                const newKey = label.dataset.newKey || 'popup.previewImage';
+
+                label.setAttribute('data-translate', newKey);
+
+                if (window.AdminTranslate?.applyTranslations) {
+                    window.AdminTranslate.applyTranslations();
+                } else if (window.AdminTranslate?.translatePage) {
+                    window.AdminTranslate.translatePage();
+                }
             }
         });
     },

@@ -115,11 +115,12 @@
                                 >
 
                                 <div class="card-body">
-                                    <small 
+                                   <small 
                                         id="previewLabel"
                                         class="text-muted"
-                                        data-current-text="Gambar Saat Ini"
-                                        data-new-text="Preview Gambar Baru"
+                                        data-current-key="common.currentImage"
+                                        data-new-key="common.previewImage"
+                                        data-translate="{{ $hasCurrentImage ? 'popup.currentImage' : 'popup.previewImage' }}"
                                     >
                                         {{ $hasCurrentImage ? 'Gambar Saat Ini' : 'Preview Gambar Baru' }}
                                     </small>
